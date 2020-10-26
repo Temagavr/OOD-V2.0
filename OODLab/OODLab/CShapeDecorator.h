@@ -8,7 +8,7 @@ class CShapeDecorator : public IShape
 {
 public:
 
-	CShapeDecorator(std::unique_ptr<IShape>&& shape) :
+	CShapeDecorator(std::shared_ptr<IShape>&& shape) :
 		shape(move(shape))
 	{};
 
@@ -45,8 +45,14 @@ public:
 	virtual double CalcPerim() = 0;
 	virtual double CalcSquare() = 0;
 	virtual std::string GetType() const = 0;
+	
 	virtual void Draw(sf::RenderWindow& window) = 0;
+	virtual bool CheckClick(int x, int y) = 0;
+	virtual CPoint GetCenter() const = 0;
+	virtual void MoveShape(int x, int y, sf::RenderWindow& window) = 0;
+	virtual void DeleteBorder() = 0;
+
 
 private:
-	std::unique_ptr<IShape> shape;
+	std::shared_ptr<IShape> shape;
 };

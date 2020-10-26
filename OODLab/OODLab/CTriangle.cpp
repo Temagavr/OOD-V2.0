@@ -22,12 +22,12 @@ std::string CTriangle::GetType() const
 	return type;
 }
 
-void CTriangle::Draw(sf::RenderWindow& window)
+bool CTriangle::CheckClick(int x, int y)
 {
-	sf::ConvexShape triangle;
-	triangle.setFillColor(sf::Color(0xFF, 0, 0xFF));
+	//sf::ConvexShape triangle;
 	//triangle.setPosition(300, 300);
 	triangle.setPointCount(3);
+
 	sf::Vector2f vect(p1.GetX(), p1.GetY());
 	triangle.setPoint(0, vect);
 
@@ -36,9 +36,48 @@ void CTriangle::Draw(sf::RenderWindow& window)
 
 	sf::Vector2f vect3(p3.GetX(), p3.GetY());
 	triangle.setPoint(2, vect3);
-	
-	/*triangle.setPoint(0, {50, -20});
-	triangle.setPoint(1, {50, 20});
-	triangle.setPoint(2, {-100, 0});*/
+
+
+	if (triangle.getGlobalBounds().contains(x, y))
+		return true;
+	else
+		return false;
+}
+
+CPoint CTriangle::GetCenter() const
+{
+	return center;
+}
+
+void CTriangle::MoveShape(int x, int y, sf::RenderWindow& window)
+{
+	triangle.setPosition(x, y);
+	triangle.setOutlineThickness(2);
+	triangle.setOutlineColor(sf::Color(255, 255, 255, 255));
+	center.SetX(x);
+	center.SetY(y);
+}
+
+void CTriangle::Draw(sf::RenderWindow& window)
+{
+	//sf::ConvexShape triangle;
+	triangle.setFillColor(sf::Color(0xFF, 0, 0xFF));
+	//triangle.setPosition(300, 300);
+	triangle.setPointCount(3);
+
+	sf::Vector2f vect(p1.GetX(), p1.GetY());
+	triangle.setPoint(0, vect);
+
+	sf::Vector2f vect2(p2.GetX(), p2.GetY());
+	triangle.setPoint(1, vect2);
+
+	sf::Vector2f vect3(p3.GetX(), p3.GetY());
+	triangle.setPoint(2, vect3);
+
 	window.draw(triangle);
+}
+
+void CTriangle::DeleteBorder()
+{
+	triangle.setOutlineThickness(0);
 }

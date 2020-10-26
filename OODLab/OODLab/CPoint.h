@@ -3,6 +3,7 @@
 class CPoint
 {
 public:
+	CPoint() {};
 	CPoint(int x, int y) :x(x), y(y) {};
 
 	int GetX()
@@ -28,6 +29,6 @@ public:
 	~CPoint() {};
 
 private:
-	int x;
-	int y;
+	int x = 0;
+	int y = 0;
 };
