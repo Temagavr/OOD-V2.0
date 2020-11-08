@@ -7,6 +7,8 @@
 #include "CTriangle.h"
 #include "CRectangle.h"
 #include "CShape.h"
+#include "CShapeFactory.h"
+#include "InputData.h"
 #include <vector>
 
 using namespace std;
@@ -14,121 +16,20 @@ using namespace std;
 const string RECTANGLE = "RECTANGLE:";
 const string TRIANGLE = "TRIANGLE:";
 const string CIRCLE = "CIRCLE:";
-const string P1 = "P1=";
-const string P2 = "P2=";
-const string P3 = "P3=";
-const string R = "R=";
-const string C = "C=";
 
 vector<shared_ptr<CShapeDecorator>> ReadData(istream& input) 
 {
 	vector<shared_ptr<CShapeDecorator>> shapes;
+    auto& factory = CShapeFactory::GetInstance();// make_unique<CShapeFactory>();
+    auto inputShape = make_shared<InputData>(move(make_unique<CShapeFactory>(factory)));
+    string temp;
     while (!input.eof())
     {
-        string temp;
         input >> temp;
-        if (temp == RECTANGLE)
+        if (temp == RECTANGLE || temp == TRIANGLE || temp == CIRCLE)
         {
-            int x1, x2, y1, y2;
-            input >> temp;
-            if (temp == P1)
-            {
-                input >> temp;
-                temp.erase(temp.size() - 1);
-                x1 = atoi(temp.c_str());
-                input >> temp;
-                temp.erase(temp.size() - 1);
-                y1 = atoi(temp.c_str());
-            }
-            input >> temp;
-            if (temp == P2)
-            {
-                input >> temp;
-                temp.erase(temp.size() - 1);
-                x2 = atoi(temp.c_str());
-                input >> temp;
-                temp.erase(temp.size() - 1);
-                y2 = atoi(temp.c_str());
-            }
-            auto shape = make_shared<CShape>();
-            auto rectangle = make_shared<CRectangle>(move(shape), x1, y1, x2, y2);
-
-            rectangle->SetPerim();
-            rectangle->SetSquare();
-
-            shapes.push_back(move(rectangle));
-        }
-
-        if (temp == TRIANGLE)
-        {
-            int x1, x2, x3, y1, y2, y3;
-            input >> temp;
-            if (temp == P1)
-            {
-                input >> temp;
-                temp.erase(temp.size() - 1);
-                x1 = atoi(temp.c_str());
-                input >> temp;
-                temp.erase(temp.size() - 1);
-                y1 = atoi(temp.c_str());
-            }
-            input >> temp;
-            if (temp == P2)
-            {
-                input >> temp;
-                temp.erase(temp.size() - 1);
-                x2 = atoi(temp.c_str());
-                input >> temp;
-                temp.erase(temp.size() - 1);
-                y2 = atoi(temp.c_str());
-            }
-            input >> temp;
-            if (temp == P3)
-            {
-                input >> temp;
-                temp.erase(temp.size() - 1);
-                x3 = atoi(temp.c_str());
-                input >> temp;
-                temp.erase(temp.size() - 1);
-                y3 = atoi(temp.c_str());
-            }
-            auto shape = make_shared<CShape>();
-            auto triangle = make_shared<CTriangle>(move(shape), x1, y1, x2, y2, x3, y3);
-
-            triangle->SetPerim();
-            triangle->SetSquare();
-
-            shapes.push_back(move(triangle));
-
-        }
-
-        if (temp == CIRCLE)
-        {
-            int x1, y1, radius;
-            input >> temp;
-            if (temp == C)
-            {
-                input >> temp;
-                temp.erase(temp.size() - 1);
-                x1 = atoi(temp.c_str());
-                input >> temp;
-                temp.erase(temp.size() - 1);
-                y1 = atoi(temp.c_str());
-            }
-            input >> temp;
-            if (temp == R)
-            {
-                input >> temp;
-                temp.erase(temp.size() - 1);
-                radius = atoi(temp.c_str());
-            }
-            auto shape = make_shared<CShape>();
-            auto circle = make_shared<CCircle>(move(shape), x1, y1, radius);
- 
-            circle->SetPerim();
-            circle->SetSquare();
-
-            shapes.push_back(move(circle));
+            shared_ptr<CShapeDecorator> shape = inputShape->GetCreatedShape(temp, input);
+            shapes.push_back(shape);
         }
     }
 
@@ -178,7 +79,7 @@ int main()
 {
     ifstream input;
     ofstream output;
-    input.open("input.txt");
+    input.open("input1.txt");
     output.open("output.txt");
 
 	sf::RenderWindow window(sf::VideoMode({ 600, 600 }), "title");
