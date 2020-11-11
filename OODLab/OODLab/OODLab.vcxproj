@@ -154,6 +154,7 @@
     <ClCompile Include="CCircle.cpp" />
     <ClCompile Include="CRectangle.cpp" />
     <ClCompile Include="CShapeFactory.cpp" />
+    <ClCompile Include="CShapeVisitor.cpp" />
     <ClCompile Include="CTriangle.cpp" />
     <ClCompile Include="InputData.cpp" />
     <ClCompile Include="OODLab.cpp" />
@@ -165,9 +166,11 @@
     <ClInclude Include="CShape.h" />
     <ClInclude Include="CShapeDecorator.h" />
     <ClInclude Include="CShapeFactory.h" />
+    <ClInclude Include="CShapeVisitor.h" />
     <ClInclude Include="CTriangle.h" />
     <ClInclude Include="InputData.h" />
     <ClInclude Include="IShape.h" />
+    <ClInclude Include="IVisitor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -42,6 +42,11 @@ public:
 		output <<GetType() << ": P= " << GetPerim() << ", S= " << GetSquare() << std::endl;
 	}
 
+	void Accept(IVisitor& visitor) override
+	{
+		visitor.Visit(*this);
+	}
+
 	virtual double CalcPerim() = 0;
 	virtual double CalcSquare() = 0;
 	virtual std::string GetType() const = 0;

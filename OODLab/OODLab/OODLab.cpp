@@ -9,6 +9,7 @@
 #include "CShape.h"
 #include "CShapeFactory.h"
 #include "InputData.h"
+#include "CShapeVisitor.h"
 #include <vector>
 
 using namespace std;
@@ -69,9 +70,11 @@ shared_ptr<CShapeDecorator> FindShape(vector<shared_ptr<CShapeDecorator>>& shape
 
 void PrintShapesInfo(vector<shared_ptr<CShapeDecorator>>& shapes, ostream& output)
 {
+    CShapeVisitor visitor(output);
     for (int i = 0; i < shapes.size();++i)
     {
-        shapes[i]->PrintInfo(output);
+        //shapes[i]->PrintInfo(output);
+        shapes[i]->Accept(visitor);
     }
 }
 

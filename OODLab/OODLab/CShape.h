@@ -26,6 +26,9 @@ public:
 		return square;
 	}
 
+	void Accept(IVisitor& visitor) override
+	{}
+
 private:
 	double perimeter = 0;
 	double square = 0;
